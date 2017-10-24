@@ -1,0 +1,14 @@
+body {
+    background-image: url("background.jpeg");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+}
+
+p, h1, h2, a, ul, li {
+    text-align: center;
+    color: darkorange;
+    font-family: "helvetica", sans-serif;
+}
+
+
