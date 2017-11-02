@@ -1,14 +1,19 @@
 body {
-    background-image: url("background.jpeg");
     background-repeat: no-repeat;
     background-position: right top;
     background-attachment: fixed;
 }
 
-p, h1, h2, a, ul, li {
+h1, h2 {
     text-align: center;
-    color: darkorange;
-    font-family: "helvetica", sans-serif;
+    color: #E2EB98;
+    font-family: 'Dosis', sans-serif;
+}
+
+p, a {
+    text-align: center;
+    color: #93A392;
+    font-family: 'ABeeZee', sans-serif;
 }
 
 

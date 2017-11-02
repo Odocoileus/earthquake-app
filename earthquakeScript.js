@@ -1,12 +1,12 @@
-"use strict"
+"use strict";
 
     //get current time in ms, then get the past minute in ms
-    var timeObject = new Date(); //Date object
     var currentMSeconds = Date.now();
     var pastMSeconds = (currentMSeconds - 9000000); // subtracting 15 minutes
 
     //subtract the offset from UTC in ms from the two times to get UTC times
-    var utcOffset = (timeObject.getTimezoneOffset() * 60000);
+    var timeObject = new Date(); //Date object
+    var utcOffset = (timeObject.getTimezoneOffset() * 60000); //getting offset in minutes
 
     var utcCurrentMSeconds = new Date(currentMSeconds - utcOffset);
     var utcPastMSeconds = new Date(pastMSeconds - utcOffset);
@@ -30,7 +30,8 @@
     xhr.onload = function() { /* the onload property of the xhr object is what is invoked as soon as the 
             response is sent from the server. It will wait until then to execute. */
 
-       (function() { /* This IIFE is to ensure the variables are assigned values before anything else
+ //THIS should be done with a callback instead
+        (function() { /* This IIFE is to ensure the variables are assigned values before anything else
         happens in the code. */
             earthquakesJson = xhr.response; 
             earthquakesObject = JSON.parse(earthquakesJson);
@@ -65,36 +66,43 @@
                 else return " was not ";
             }
 
-            //create elements
+            //creating child div for flexbox
+            var childDiv = document.createElement("DIV");
+            childDiv.className = "tile is-child box"
+            
+    // ALL this really needs to do is loop through a single p for each listing
+            //Creating elements
             var titleHeader = document.createElement("H2");
             var magnitudeElement = document.createElement("P");
             var locationElement = document.createElement("P");
             var tsunamiElement = document.createElement("P");
             var urlElement = document.createElement("P");
             var anchorElement = document.createElement("A");
-            anchorElement.href = earthquakesObject.features[i].properties.url;
+            anchorElement.href = earthquakesObject.features[i].properties.url; 
 
             //create text nodes for each property
             var title = document.createTextNode("Earthquake " + (i + 1));
             var magnitude = document.createTextNode("Magnitude: " + earthquakesObject.features[i].properties.mag);
             var location = document.createTextNode("Location: " + earthquakesObject.features[i].properties.place);
-            var tsunami = document.createTextNode("There" + wasTsunami() + "a tsunami warning with this                     earthquake.");
+            var tsunami = document.createTextNode("There" + wasTsunami() + "a tsunami warning with this earthquake.");
             var link = document.createTextNode("Link to the USGS page on the earthquake.");
 
-            //adding elements to the body
-            document.body.appendChild(titleHeader);
-
-            //adding text
-            titleHeader.appendChild(title);
-            document.body.appendChild(magnitudeElement);
-            document.body.appendChild(locationElement);
-            document.body.appendChild(tsunamiElement);
-            document.body.appendChild(urlElement);
-            
+            //appending text nodes
+            titleHeader.appendChild(title);        
             magnitudeElement.appendChild(magnitude);
             locationElement.appendChild(location);
             tsunamiElement.appendChild(tsunami);
             anchorElement.appendChild(link);
             urlElement.appendChild(anchorElement);
+            
+            //appending elements to div
+            var dataDiv = document.getElementById("data");
+            dataDiv.appendChild(childDiv);
+            childDiv.appendChild(titleHeader);
+            childDiv.appendChild(magnitudeElement);
+            childDiv.appendChild(locationElement);
+            childDiv.appendChild(tsunamiElement);
+            childDiv.appendChild(urlElement); 
+            
         }
     }
