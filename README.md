@@ -11,4 +11,7 @@ CHANGES:
 -Entirely new styling
 -Used Bulma to put each event into a tile
 
+(11/03/2017)
+-Tiles now display from left to right in sets of three.
+
 
