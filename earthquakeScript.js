@@ -67,8 +67,6 @@ function generatePage() {
     
 //Generate all tiles
 function createTileLayout() {
-        /*fuck this vertical croissant bullshit
-            if((numberoftiles - count) < 3) ... create an element with id center */
             for(var i = 0; i < earthquakesObject.features.length; i++) {
              //Create 3 tiles in the parent element
                 var dataDiv = document.getElementById("data");
@@ -118,5 +116,5 @@ function createTileLayout() {
 }
 
 function wasTsunami() {
-    return "dcikss";
+    return " stand in text ";
 }
