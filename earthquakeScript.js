@@ -60,61 +60,74 @@ function generatePage() {
         return; // Using return with no value exits interpretData() and allows for a new AJAX request.  
 
     }
-    
     createTileLayout();
-
 }
     
 //Generate all tiles
 function createTileLayout() {
-            for(var i = 0; i < earthquakesObject.features.length; i++) {
-             //Create 3 tiles in the parent element
-                var dataDiv = document.getElementById("data");
-                var parentDiv = document.createElement("DIV");
-                parentDiv.className = "tile is-parent";
-                    
-                for(var count = 0; count < 3; count++) { 
-                    //creating child div for flexbox
-                    var childDiv = document.createElement("DIV");
-                    childDiv.className = "tile is-4 is-child box";
+    for(var i = 0; i < earthquakesObject.features.length;) {
+     //Create 3 tiles in the parent element
+        var dataDiv = document.getElementById("data");
+        var parentDiv = document.createElement("DIV");
+        var titleHeader, magnitudeElement, locationElement, tsunamiElement,
+            urlElement, anchorElement, title, magnitude, location, tsunami, 
+            link, childDiv, remainingTiles;
 
-                    //Creating elements
-                    var titleHeader = document.createElement("H2");
-                    var magnitudeElement = document.createElement("P");
-                    var locationElement = document.createElement("P");
-                    var tsunamiElement = document.createElement("P");
-                    var urlElement = document.createElement("P");
-                    var anchorElement = document.createElement("A");
-                    anchorElement.href = earthquakesObject.features[i].properties.url; 
+        parentDiv.className = "tile is-parent";
+        remainingTiles = earthquakesObject.features.length - i;
+        if( remainingTiles < 3 ) {
+                parentDiv.id = "centerTiles";
+        } 
 
-                    //create text nodes for each property
-                    var title = document.createTextNode("Earthquake " + (i + 1));
-                    var magnitude = document.createTextNode("Magnitude: " + earthquakesObject.features[i].properties.mag);
-                    var location = document.createTextNode("Location: " + earthquakesObject.features[i].properties.place);
-                    var tsunami = document.createTextNode("There" + wasTsunami() + "a tsunami warning with this earthquake.");
-                    var link = document.createTextNode("Link to the USGS page on the earthquake.");
+        for(var count = 0; count < 3 && count < remainingTiles; count++, i++) { 
+            //creating child div for flexbox
+            childDiv = document.createElement("DIV");
+            childDiv.className = "tile is-4 is-child box";
+            childDiv.id = "children";
+            
+            
+            //if there are less than 3 remaining, add a centering id
+            
 
-                    //appending text nodes
-                    titleHeader.appendChild(title);        
-                    magnitudeElement.appendChild(magnitude);
-                    locationElement.appendChild(location);
-                    tsunamiElement.appendChild(tsunami);
-                    anchorElement.appendChild(link);
-                    urlElement.appendChild(anchorElement);
+            //Creating elements
+            titleHeader = document.createElement("H2");
+            titleHeader.className = "title";
+            magnitudeElement = document.createElement("P");
+            locationElement = document.createElement("P");
+    
+            urlElement = document.createElement("P");
+            anchorElement = document.createElement("A");
+            anchorElement.href = earthquakesObject.features[i].properties.url; 
 
-                    //appending elements to child div
-                    childDiv.appendChild(titleHeader);
-                    childDiv.appendChild(magnitudeElement);
-                    childDiv.appendChild(locationElement);
-                    childDiv.appendChild(tsunamiElement);
-                    childDiv.appendChild(urlElement); 
-                    parentDiv.appendChild(childDiv);
-                }
-        
+            //create text nodes for each property
+            title = document.createTextNode("Earthquake " + (i + 1));
+            magnitude = document.createTextNode("Magnitude: " + earthquakesObject.features[i].properties.mag);
+            location = document.createTextNode("Location: " + earthquakesObject.features[i].properties.place);
+            
+            if(earthquakesObject.features[i].properties.tsunami == 1) {
+                tsunamiElement = document.createElement("P");
+                tsunami = document.createTextNode("There was a tsunami warning with this earthquake.");
+                tsunamiElement.appendChild(tsunami);
+                childDiv.appendChild(tsunamiElement);
+            }
+            
+            link = document.createTextNode("Link to the USGS page on the earthquake.");
+
+            //appending text nodes
+            titleHeader.appendChild(title);        
+            magnitudeElement.appendChild(magnitude);
+            locationElement.appendChild(location);
+            anchorElement.appendChild(link);
+            urlElement.appendChild(anchorElement);
+
+            //appending elements to child div
+            childDiv.appendChild(titleHeader);
+            childDiv.appendChild(magnitudeElement);
+            childDiv.appendChild(locationElement);
+           
+            childDiv.appendChild(urlElement); 
+            parentDiv.appendChild(childDiv);
+        }
         dataDiv.appendChild(parentDiv);
-    } 
-}
-
-function wasTsunami() {
-    return " stand in text ";
+    }
 }

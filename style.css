@@ -1,19 +1,24 @@
-body {
-    background-repeat: no-repeat;
-    background-position: right top;
-    background-attachment: fixed;
+
+h1 {
+    text-align: center;
+    color: #5D737E;
+    font-family: 'Dosis', sans-serif;
 }
 
-h1, h2 {
-    text-align: center;
-    color: #E2EB98;
-    font-family: 'Dosis', sans-serif;
+h2 {
+   text-align: center;
+   color: #55505C;
+   font-family: 'Dosis', sans-serif;
 }
 
 p, a {
     text-align: center;
     color: #93A392;
     font-family: 'ABeeZee', sans-serif;
+}
+
+#children {
+    background: #D6F8D6;
 }
 
 
