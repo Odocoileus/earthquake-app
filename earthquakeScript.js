@@ -7,7 +7,6 @@
     //subtract the offset from UTC in ms from the two times to get UTC times
     var timeObject = new Date(); //Date object
     var utcOffset = (timeObject.getTimezoneOffset() * 60000); //getting offset in minutes
-
     var utcCurrentMSeconds = new Date(currentMSeconds - utcOffset);
     var utcPastMSeconds = new Date(pastMSeconds - utcOffset);
 
@@ -21,7 +20,6 @@
 
     var requestUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=" 
         + pastIsoString + "&endtime=" + currentIsoString; //Generating the URL used to request the information
-
     var xhr = new XMLHttpRequest();
     xhr.open("GET", requestUrl); // "GET" for "getting" information, and the request URL
     var earthquakesJson, earthquakesObject; /* These are declared outside xhr.onload() so that
@@ -29,26 +27,22 @@
 
     xhr.onload = function() { /* the onload property of the xhr object is what is invoked as soon as the 
             response is sent from the server. It will wait until then to execute. */
-
- //THIS should be done with a callback instead
+        
         (function() { /* This IIFE is to ensure the variables are assigned values before anything else
         happens in the code. */
             earthquakesJson = xhr.response; 
             earthquakesObject = JSON.parse(earthquakesJson);
         })() 
+        document.getElementById("loadingDiv").style.display = "none"; //When finished loading, hide loading wheel
 
         generatePage();
-
     }
 
     xhr.send(null); //Send the request!
             
 /* ----------------------------------------------------------------------------*/
             
-  //Interpreting
 function generatePage() {
-    //alert(earthquakesJson);
-
     if (earthquakesObject.features.length == 0) { 
         /* If there aren't any earthquakes, the length property of the 
             features array will be 0.  */
@@ -58,12 +52,11 @@ function generatePage() {
         noneElement.appendChild(noQuakes);
         document.body.appendChild(noneElement);
         return; // Using return with no value exits interpretData() and allows for a new AJAX request.  
-
     }
     createTileLayout();
 }
     
-//Generate all tiles
+//Generate all tiles and relevant content.
 function createTileLayout() {
     for(var i = 0; i < earthquakesObject.features.length;) {
      //Create 3 tiles in the parent element
@@ -84,10 +77,6 @@ function createTileLayout() {
             childDiv = document.createElement("DIV");
             childDiv.className = "tile is-4 is-child box";
             childDiv.id = "children";
-            
-            
-            //if there are less than 3 remaining, add a centering id
-            
 
             //Creating elements
             titleHeader = document.createElement("H2");
@@ -103,14 +92,6 @@ function createTileLayout() {
             title = document.createTextNode("Earthquake " + (i + 1));
             magnitude = document.createTextNode("Magnitude: " + earthquakesObject.features[i].properties.mag);
             location = document.createTextNode("Location: " + earthquakesObject.features[i].properties.place);
-            
-            if(earthquakesObject.features[i].properties.tsunami == 1) {
-                tsunamiElement = document.createElement("P");
-                tsunami = document.createTextNode("There was a tsunami warning with this earthquake.");
-                tsunamiElement.appendChild(tsunami);
-                childDiv.appendChild(tsunamiElement);
-            }
-            
             link = document.createTextNode("Link to the USGS page on the earthquake.");
 
             //appending text nodes
@@ -124,10 +105,16 @@ function createTileLayout() {
             childDiv.appendChild(titleHeader);
             childDiv.appendChild(magnitudeElement);
             childDiv.appendChild(locationElement);
-           
+            if(earthquakesObject.features[i].properties.tsunami == 1) { //This dialogue only appears when there is a tsunami.
+                tsunamiElement = document.createElement("P");
+                tsunami = document.createTextNode("There was a tsunami warning with this earthquake.");
+                tsunamiElement.appendChild(tsunami);
+                childDiv.appendChild(tsunamiElement);
+            }
             childDiv.appendChild(urlElement); 
             parentDiv.appendChild(childDiv);
         }
         dataDiv.appendChild(parentDiv);
     }
 }
+

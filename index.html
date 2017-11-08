@@ -3,13 +3,19 @@
     <head>
         <title>15-Minute Earthquake Data</title>
         <script src="earthquakeScript.js"></script>
+        <script src="https://use.fontawesome.com/5732eb02be.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css"> 
         <link href="https://fonts.googleapis.com/css?family=ABeeZee|Dosis" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
     </head>
     <body>
         <h1 class="title is-1">Earthquake Data from the Last 15 Minutes</h1>
+        <p>Created by Ryan Atkinson, November 2017.</p>
+        <a href="https://github.com/Odocoileus"><i class="fa fa-github fa-4x" aria-hidden="true"></i></a>
+        <div id="loadingDiv">
+            <i id="loading-image" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
         <div id="data" class="tile is-ancestor is-vertical"></div>
-        <p>Ryan Atkinson</p>
     </body>
 </html>

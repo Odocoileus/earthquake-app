@@ -1,4 +1,6 @@
-
+body {
+    background: ;
+}
 h1 {
     text-align: center;
     color: #5D737E;
@@ -18,7 +20,23 @@ p, a {
 }
 
 #children {
-    background: #D6F8D6;
+    background: #B9CDDA;
 }
 
+#loadingDiv {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    display: block;
+    z-index: 99
+}
+
+#loading-image {
+    position: absolute;
+    top: 50%;
+    left: 47.5%;
+    z-index: 100
+} 
 
