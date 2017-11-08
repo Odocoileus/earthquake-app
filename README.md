@@ -16,4 +16,7 @@ CHANGES:
 (11/07/2017)
 -All tiles now display different data. Styling updated. The code now displays whatever tiles that were not diaplayed in threes in a <div> with a unique ID so that it can be centered below the other tiles.
 
+(11/08/2017)
+-Styling updated, now includes loading wheel.
+
 
